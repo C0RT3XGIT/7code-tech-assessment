@@ -1,0 +1,18 @@
+{
+    "navigation": {
+        "home": "Acasă",
+        "about": "Despre Noi"
+    },
+    "home": {
+      "title": "Bine ați venit în aplicația noastră multi-lingvistică",
+      "description": "Acesta este conținutul paginii de start în română."
+    },
+    "about": {
+      "title": "Despre Noi",
+      "description": "Acesta este conținutul paginii despre noi în română."
+    },
+    "languageSwitcher": {
+      "en": "Engleză",
+      "ro": "Română"
+    }
+  }
