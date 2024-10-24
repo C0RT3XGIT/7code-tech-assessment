@@ -7,10 +7,10 @@ import { i18n } from './i18n-config'
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const locales = i18n.locales.map((locale) => locale.locale)
-  const isRootPath = pathname === '/'
+  const currentLocale = request.cookies.get('NEXT_LOCALE')?.value || i18n.defaultLocale
 
-  if (isRootPath) {
-    return NextResponse.redirect(new URL(`/${i18n.defaultLocale}${ROUTES.HOME}`, request.url))
+  if ( pathname === '/') {
+    return NextResponse.redirect(new URL(`/${currentLocale}${ROUTES.HOME}`, request.url))
   }
 
   const pathnameIsMissingLocale = locales.every(
@@ -18,9 +18,8 @@ export function middleware(request: NextRequest) {
   );
 
   if (pathnameIsMissingLocale) {
-    const locale = request.cookies.get('NEXT_LOCALE')?.value || i18n.defaultLocale
     return NextResponse.redirect(
-      new URL(`/${locale}${pathname}`, request.url)
+      new URL(`/${currentLocale}${pathname}`, request.url)
     )
   }
 
