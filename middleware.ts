@@ -1,17 +1,16 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { ROUTES } from './utils/constants/routes'
-
-const locales = ['en', 'ro']
-const defaultLocale = locales[0]
+import { i18n } from './i18n-config'
 
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+  const locales = i18n.locales.map((locale) => locale.locale)
   const isRootPath = pathname === '/'
 
   if (isRootPath) {
-    return NextResponse.redirect(new URL(`/${defaultLocale}${ROUTES.HOME}`, request.url))
+    return NextResponse.redirect(new URL(`/${i18n.defaultLocale}${ROUTES.HOME}`, request.url))
   }
 
   const pathnameIsMissingLocale = locales.every(
@@ -19,7 +18,7 @@ export function middleware(request: NextRequest) {
   );
 
   if (pathnameIsMissingLocale) {
-    const locale = request.cookies.get('NEXT_LOCALE')?.value || defaultLocale
+    const locale = request.cookies.get('NEXT_LOCALE')?.value || i18n.defaultLocale
     return NextResponse.redirect(
       new URL(`/${locale}${pathname}`, request.url)
     )
